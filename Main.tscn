@@ -1,0 +1,65 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://GUI/ControlManager.gd" type="Script" id=1]
+[ext_resource path="res://GUI/Pause.gd" type="Script" id=2]
+[ext_resource path="res://Hypercube/Camera.gd" type="Script" id=3]
+[ext_resource path="res://Hypercube/Tesseract.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Hypercube/black_out.tres" type="Environment" id=5]
+
+[node name="Spatial" type="Spatial"]
+
+[node name="Camera" type="Camera" parent="."]
+environment = ExtResource( 5 )
+script = ExtResource( 3 )
+rot_speed = 0
+
+[node name="Tesseract" parent="." instance=ExtResource( 4 )]
+
+[node name="ControlContainer" type="VBoxContainer" parent="."]
+margin_right = 264.0
+margin_bottom = 271.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CameraSlider" type="HSlider" parent="ControlContainer"]
+margin_right = 264.0
+margin_bottom = 16.0
+min_value = -180.0
+max_value = 180.0
+tick_count = 5
+
+[node name="Label" type="Label" parent="ControlContainer"]
+margin_top = 20.0
+margin_right = 264.0
+margin_bottom = 34.0
+text = "Rotations:"
+
+[node name="RotationControlList" type="VBoxContainer" parent="ControlContainer"]
+margin_top = 38.0
+margin_right = 264.0
+margin_bottom = 38.0
+
+[node name="MiscButtons" type="HBoxContainer" parent="ControlContainer"]
+margin_top = 42.0
+margin_right = 264.0
+margin_bottom = 62.0
+
+[node name="AddRotation" type="Button" parent="ControlContainer/MiscButtons"]
+margin_right = 20.0
+margin_bottom = 20.0
+size_flags_horizontal = 0
+text = "+"
+
+[node name="Pause" type="Button" parent="ControlContainer/MiscButtons"]
+margin_left = 24.0
+margin_right = 74.0
+margin_bottom = 20.0
+text = "Pause"
+align = 0
+script = ExtResource( 2 )
+[connection signal="value_changed" from="ControlContainer/CameraSlider" to="ControlContainer" method="_on_HSlider_value_changed"]
+[connection signal="pressed" from="ControlContainer/MiscButtons/AddRotation" to="ControlContainer" method="_on_AddRotation_pressed"]
+[connection signal="pressed" from="ControlContainer/MiscButtons/Pause" to="ControlContainer/MiscButtons/Pause" method="_on_Pause_pressed"]
+[connection signal="pressed" from="ControlContainer/MiscButtons/Pause" to="ControlContainer" method="_on_Button_pressed"]
